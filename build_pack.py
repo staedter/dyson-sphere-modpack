@@ -4,7 +4,12 @@
 The pack is Adrenaline (performance only, MIT) plus Distant Horizons, Nuit and
 Nuit Interop, pinned to exact Modrinth versions. Mod files are never copied:
 every mod is a packwiz metafile with its Modrinth download URL and SHA-512, so
-packwiz-installer downloads and verifies it on each player's PC.
+packwiz-installer downloads and verifies it on each player's PC. The Milky Way
+sky (`sky/`, a Nuit resource pack made by tools/make_sky.py) is zipped into
+resourcepacks/dyson-sky.zip and switched on through Adrenaline's
+config/modpack_defaults/options.txt, which the Config Manager mod copies into
+the game directory only when a player has no options.txt yet (its "Update"
+button applies it later without touching other settings).
 
 Usage:
   python3 build_pack.py                 # regenerate pack.toml, index.toml, mods/, config/
@@ -26,7 +31,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 API = "https://api.modrinth.com/v2"
 HEADERS = {"User-Agent": "staedter/dyson-sphere-modpack (github.com/staedter/dyson-sphere-modpack)"}
-PACK_NAME, PACK_VERSION = "Dyson Sphere", "0.1.0"
+PACK_NAME, PACK_VERSION = "Dyson Sphere", "0.2.0"
 MINECRAFT, FABRIC_LOADER = "26.1.2", "0.19.5"
 BASE = ("adrenaline", "26.5.1+mc26.1.2.fabric")
 EXTRAS = {                                  # Modrinth slug -> pinned version number, side
@@ -38,6 +43,9 @@ PACK_URL = "https://raw.githubusercontent.com/staedter/dyson-sphere-modpack/main
 BOOTSTRAP_URL = "https://github.com/packwiz/packwiz-installer-bootstrap/releases/download/v0.0.3/packwiz-installer-bootstrap.jar"
 BOOTSTRAP_SHA256 = "a8fbb24dc604278e97f4688e82d3d91a318b98efc08d5dbfcbcbcab6443d116c"   # pinned on first download (2026-10-14); GitHub publishes no digest for v0.0.3
 GENERATED = ("mods", "config")
+SKY_SOURCE, SKY_PACK = "sky", "resourcepacks/dyson-sky.zip"
+DEFAULT_OPTIONS = "config/modpack_defaults/options.txt"
+SKY_OPTIONS = ('resourcePacks:["vanilla","file/dyson-sky.zip"]', "incompatibleResourcePacks:[]")
 
 
 def fetch(url):
@@ -120,9 +128,31 @@ def add_extras():
         write_metafile(slug, project["title"], primary_file(version), side, version["project_id"], version["id"])
 
 
+def build_sky():
+    """resourcepacks/dyson-sky.zip from sky/ (byte-identical for the same input), switched on by default."""
+    target = ROOT / SKY_PACK
+    target.parent.mkdir(exist_ok=True)
+    with zipfile.ZipFile(target, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
+        for path in sorted(p for p in (ROOT / SKY_SOURCE).rglob("*") if p.is_file()):
+            info = zipfile.ZipInfo(path.relative_to(ROOT / SKY_SOURCE).as_posix(), (1980, 1, 1, 0, 0, 0))
+            info.compress_type, info.external_attr = zipfile.ZIP_DEFLATED, 0o644 << 16
+            archive.writestr(info, path.read_bytes())
+    options = ROOT / DEFAULT_OPTIONS
+    lines = options.read_text(encoding="utf-8").splitlines() if options.exists() else []
+    keys = {line.split(":", 1)[0] for line in SKY_OPTIONS}
+    lines = [line for line in lines if line.split(":", 1)[0] not in keys] + list(SKY_OPTIONS)
+    options.parent.mkdir(parents=True, exist_ok=True)
+    options.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def pack_files():
+    files = [p for d in GENERATED for p in (ROOT / d).rglob("*") if p.is_file()]
+    return sorted(files + [ROOT / SKY_PACK])
+
+
 def write_index_and_pack():
     entries = []
-    for path in sorted(p for d in GENERATED for p in (ROOT / d).rglob("*") if p.is_file()):
+    for path in pack_files():
         relative = path.relative_to(ROOT).as_posix()
         entry = [f"file = {toml(relative)}", f"hash = {toml(hashlib.sha256(path.read_bytes()).hexdigest())}"]
         if relative.endswith(".pw.toml"):
@@ -167,6 +197,7 @@ def main():
     if dependencies != {"fabric-loader": FABRIC_LOADER, "minecraft": MINECRAFT}:
         raise SystemExit(f"base pack targets {dependencies}; update MINECRAFT/FABRIC_LOADER")
     add_extras()
+    build_sky()
     print(f"pack written: {write_index_and_pack()} files in index.toml")
     if args.instance_zip:
         target, tag = instance_zip()

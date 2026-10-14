@@ -5,6 +5,8 @@ Der Client für unsere Dyson-Sphären-Welt (Minecraft Java **26.1.2**, Fabric):
 - **Adrenaline** – reine Performance-Mods (Sodium, Lithium, …), sieht aus wie Vanilla
 - **Distant Horizons** – Fernsicht weit über die normale Sichtweite hinaus
 - **Nuit** + **Nuit Interop** – eigener Sternenhimmel
+- **Milchstraßen-Himmel** – die Milchstraße aus NASA-Sternkarten als
+  Hintergrund, nur in der Dyson-Welt (Leere-Biom der Oberwelt)
 
 Die Mods werden nicht hier gespeichert: Das Pack verweist auf Modrinth, jede
 Datei wird beim Spieler heruntergeladen und per SHA-512 geprüft.
@@ -22,6 +24,13 @@ Datei wird beim Spieler heruntergeladen und per SHA-512 geprüft.
 **Updates kommen automatisch:** Vor jedem Start gleicht der Installer das
 Pack mit diesem Repository ab.
 
+## Milchstraßen-Himmel einschalten
+
+Neue Installationen haben ihn automatisch an. Wer das Pack schon vor
+Version 0.2.0 gestartet hat, schaltet ihn einmal selbst ein: im Spiel
+*Optionen → Ressourcenpakete* → „dyson-sky.zip“ nach rechts schieben → *Fertig*
+(oder im Mod-Menü bei *Config Manager* auf *Update* drücken).
+
 ## Schwächere Grafikkarten (z. B. GTX 1050 Ti)
 
 Sichtweite in den Videoeinstellungen auf 12–16 Chunks stellen und in den
@@ -31,8 +40,15 @@ Distant-Horizons-Einstellungen (Taste F6 bzw. Mod-Menü) die Qualität auf
 ## Für Pflege
 
 `python3 build_pack.py` erzeugt `pack.toml`, `index.toml`, `mods/` und
-`config/` neu (Adrenaline-Version und Zusatz-Mods stehen oben im Skript);
+`config/` neu (Adrenaline-Version und Zusatz-Mods stehen oben im Skript) und
+packt `sky/` nach `resourcepacks/dyson-sky.zip`;
 `python3 build_pack.py --instance-zip` baut zusätzlich die Import-Datei.
+
+Die Himmelstextur entsteht aus NASAs Sternkarte in galaktischen Koordinaten
+(`starmap_2020_4k_gal.exr` von https://svs.gsfc.nasa.gov/4851, SHA-256
+`bce1d2c364720fd13ebbfaf1d444404a96b7cb4d7d8ddc88d44447358552361a`) mit
+`python3 tools/make_sky.py starmap_2020_4k_gal.exr sky/assets/dyson/textures/sky/milky_way.png --exposure 0.6`
+(nur Python-Standardbibliothek; Würfel-Layout wie Nuits `square-textured`).
 
 ## Lizenzen und Dank
 
@@ -40,4 +56,8 @@ Distant-Horizons-Einstellungen (Taste F6 bzw. Mod-Menü) die Qualität auf
   Mod-Auswahl und die Standardeinstellungen unter `config/`.
 - Jede Mod steht unter ihrer eigenen Lizenz (siehe Modrinth).
 - [packwiz](https://packwiz.infra.link/) und packwiz-installer-bootstrap.
-- Das Skript in diesem Repository steht unter der MIT-Lizenz.
+- Milchstraßen-Himmel: Sternkarte „Deep Star Maps 2020“ von NASA/Goddard Space
+  Flight Center Scientific Visualization Studio; Gaia-DR2-Daten: ESA/Gaia/DPAC.
+  Die daraus erzeugte Textur steht wie die Gaia-Daten unter CC BY-SA 3.0 IGO
+  (siehe `sky/CREDITS.txt`).
+- Die Skripte in diesem Repository stehen unter der MIT-Lizenz.

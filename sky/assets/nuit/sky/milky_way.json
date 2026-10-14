@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "type": "square-textured",
+  "texture": "dyson:textures/sky/milky_way.png",
+  "properties": {
+    "blend": "normal",
+    "sunSkyTint": false
+  },
+  "conditions": {
+    "dimensions": {
+      "excludes": false,
+      "entries": ["minecraft:overworld"]
+    },
+    "biomes": {
+      "excludes": false,
+      "entries": ["minecraft:the_void"]
+    }
+  }
+}

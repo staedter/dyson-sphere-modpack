@@ -1,0 +1,13 @@
+Milky Way sky for the Dyson Sphere world
+
+Star map: NASA/Goddard Space Flight Center Scientific Visualization Studio,
+"Deep Star Maps 2020" (https://svs.gsfc.nasa.gov/4851), galactic coordinates,
+file starmap_2020_4k_gal.exr. Gaia DR2 data: ESA/Gaia/DPAC. Further sources
+named by NASA: Hipparcos, Tycho-2, UCAC3.
+
+The texture (assets/dyson/textures/sky/milky_way.png) was made from that map
+with tools/make_sky.py in the repository github.com/staedter/dyson-sphere-modpack
+(tone mapping with exposure 0.6 and gamma 2.2, projected onto Nuit's 3 x 2
+cube layout, galactic centre at 20 degrees from east towards south).
+Because it contains Gaia data, the texture is shared under the same terms as
+ESA's Gaia data (CC BY-SA 3.0 IGO).

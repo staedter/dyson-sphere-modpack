@@ -26,7 +26,7 @@ hash = "244a5a217b4604782a66736cae23717c7871acd0e2bbd51dc2b28e4b642885f2"
 
 [[files]]
 file = "config/modpack_defaults/options.txt"
-hash = "c402465b389607f17ecd45b44d5aef66a3750cef2d1c435189aaf81b667715b8"
+hash = "38acbe760a0ca1b83b17e3173f04ddc2da334d46e19d4a7bb88ca17f67653ac0"
 
 [[files]]
 file = "mods/asynclogger.pw.toml"
@@ -187,3 +187,7 @@ metafile = true
 file = "mods/zfastnoise.pw.toml"
 hash = "0569928f0e8f6423ee586ca85088e64aa5a2537afa6fab9d503305f87444fef4"
 metafile = true
+
+[[files]]
+file = "resourcepacks/dyson-sky.zip"
+hash = "c0face284193d6571fbffbc25f5294f1aca7335522a63f00fcdb4110d1518d2b"

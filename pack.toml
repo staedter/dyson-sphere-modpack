@@ -1,12 +1,12 @@
 name = "Dyson Sphere"
 author = "staedter"
-version = "0.1.0"
+version = "0.2.0"
 pack-format = "packwiz:1.1.0"
 
 [index]
 file = "index.toml"
 hash-format = "sha256"
-hash = "0e85ce8e1cbc806b08b6fbfaf41f95bf7a7e6aa86372e5b5f63e368cebda7a09"
+hash = "68005c2efe9623b2aeaa22813c5201d8295c2c6a90c37874e026fb42bf3ef424"
 
 [versions]
 minecraft = "26.1.2"

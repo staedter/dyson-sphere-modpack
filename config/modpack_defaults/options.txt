@@ -1,1 +1,3 @@
 simulationDistance:8
+resourcePacks:["vanilla","file/dyson-sky.zip"]
+incompatibleResourcePacks:[]

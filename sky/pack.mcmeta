@@ -1,0 +1,7 @@
+{
+  "pack": {
+    "description": "Dyson Sphere: Milky Way sky (NASA SVS Deep Star Maps 2020)",
+    "min_format": [84, 0],
+    "max_format": 84
+  }
+}
