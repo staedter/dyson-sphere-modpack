@@ -4,7 +4,7 @@ Der Client für unsere Dyson-Sphären-Welt (Minecraft Java **26.1.2**, Fabric):
 
 - **Adrenaline** – reine Performance-Mods (Sodium, Lithium, …), sieht aus wie Vanilla
 - **Distant Horizons** – Fernsicht weit über die normale Sichtweite hinaus
-- **Nuit** + **Nuit Interop** – eigener Sternenhimmel
+- **Nuit** – eigener Sternenhimmel
 - **Milchstraßen-Himmel** – die Milchstraße aus NASA-Sternkarten als
   Hintergrund, nur in der Dyson-Welt (Leere-Biom der Oberwelt)
 

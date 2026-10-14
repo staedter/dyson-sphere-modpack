@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Build the Dyson Sphere client modpack (packwiz format).
 
-The pack is Adrenaline (performance only, MIT) plus Distant Horizons, Nuit and
-Nuit Interop, pinned to exact Modrinth versions. Mod files are never copied:
+The pack is Adrenaline (performance only, MIT) plus Distant Horizons and Nuit,
+pinned to exact Modrinth versions. Mod files are never copied:
 every mod is a packwiz metafile with its Modrinth download URL and SHA-512, so
 packwiz-installer downloads and verifies it on each player's PC. The Milky Way
 sky (`sky/`, a Nuit resource pack made by tools/make_sky.py) is zipped into
@@ -31,13 +31,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 API = "https://api.modrinth.com/v2"
 HEADERS = {"User-Agent": "staedter/dyson-sphere-modpack (github.com/staedter/dyson-sphere-modpack)"}
-PACK_NAME, PACK_VERSION = "Dyson Sphere", "0.2.0"
+PACK_NAME, PACK_VERSION = "Dyson Sphere", "0.2.1"
 MINECRAFT, FABRIC_LOADER = "26.1.2", "0.19.5"
 BASE = ("adrenaline", "26.5.1+mc26.1.2.fabric")
 EXTRAS = {                                  # Modrinth slug -> pinned version number, side
     "distanthorizons": ("3.3.3-26.1.2", "both"),
     "nuit": ("mc26.1.2-1.0.0-beta.6+fabric", "client"),
-    "nuit-interop": ("mc26.1.2-1.0.0-beta.5+fabric", "client"),
+    # No Nuit Interop: its newest 26.1.2 build pins Nuit 1.0.0-beta.5 exactly, so it
+    # broke the game next to beta.6, and our sky is a native Nuit pack (0.2.1).
 }
 PACK_URL = "https://raw.githubusercontent.com/staedter/dyson-sphere-modpack/main/pack.toml"
 BOOTSTRAP_URL = "https://github.com/packwiz/packwiz-installer-bootstrap/releases/download/v0.0.3/packwiz-installer-bootstrap.jar"
