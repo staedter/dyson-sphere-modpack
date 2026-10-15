@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build the Dyson Sphere client modpack (packwiz format).
 
-The pack is Adrenaline (performance only, MIT) plus Distant Horizons and Nuit,
+The pack is Adrenaline (performance only, MIT) plus Distant Horizons, Nuit and Zoomify,
 pinned to exact Modrinth versions. Mod files are never copied:
 every mod is a packwiz metafile with its Modrinth download URL and SHA-512, so
 packwiz-installer downloads and verifies it on each player's PC. The Milky Way
@@ -31,7 +31,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 API = "https://api.modrinth.com/v2"
 HEADERS = {"User-Agent": "staedter/dyson-sphere-modpack (github.com/staedter/dyson-sphere-modpack)"}
-PACK_NAME, PACK_VERSION = "Dyson Sphere", "0.2.1"
+PACK_NAME, PACK_VERSION = "Dyson Sphere", "0.2.2"
 MINECRAFT, FABRIC_LOADER = "26.1.2", "0.19.5"
 BASE = ("adrenaline", "26.5.1+mc26.1.2.fabric")
 EXTRAS = {                                  # Modrinth slug -> pinned version number, side
@@ -39,6 +39,9 @@ EXTRAS = {                                  # Modrinth slug -> pinned version nu
     "nuit": ("mc26.1.2-1.0.0-beta.6+fabric", "client"),
     # No Nuit Interop: its newest 26.1.2 build pins Nuit 1.0.0-beta.5 exactly, so it
     # broke the game next to beta.6, and our sky is a native Nuit pack (0.2.1).
+    # Zoomify: the spyglass zooms further with the scroll wheel (0.2.2); YACL is its config library.
+    "yacl": ("3.9.7+26.1-fabric", "client"),
+    "zoomify": ("2.17.0+mc26.1.2", "client"),
 }
 PACK_URL = "https://raw.githubusercontent.com/staedter/dyson-sphere-modpack/main/pack.toml"
 BOOTSTRAP_URL = "https://github.com/packwiz/packwiz-installer-bootstrap/releases/download/v0.0.3/packwiz-installer-bootstrap.jar"
@@ -47,6 +50,26 @@ GENERATED = ("mods", "config")
 SKY_SOURCE, SKY_PACK = "sky", "resourcepacks/dyson-sky.zip"
 DEFAULT_OPTIONS = "config/modpack_defaults/options.txt"
 SKY_OPTIONS = ('resourcePacks:["vanilla","file/dyson-sky.zip"]', "incompatibleResourcePacks:[]")
+# Client defaults for the Dyson world (0.2.2), only the settings we change; each mod fills in the rest.
+# Distant Horizons: the world has no sky light, so cave culling would hide almost every LOD; DH draws
+# not fully generated chunks as water and its own clouds and fog (black fog dims the sun from afar).
+DEFAULT_CONFIGS = {
+    "config/modpack_defaults/config/DistantHorizons.toml": """_version = 5
+
+[client.advanced.graphics.culling]
+	enableCaveCulling = false
+	ignoredRenderBlockCsv = "minecraft:barrier,minecraft:structure_void,minecraft:light,minecraft:tripwire,minecraft:brown_mushroom,minecraft:water"
+
+[client.advanced.graphics.genericRendering]
+	enableCloudRendering = false
+
+[client.advanced.graphics.fog]
+	enableDhFog = false
+""",
+    # Zoomify: the spyglass uses Zoomify's zoom, so the scroll wheel zooms in further.
+    "config/modpack_defaults/config/zoomify.json": json.dumps(
+        {"spyglassBehaviour": "override", "scrollZoom": True, "scrollStepCount": 20}, indent=2) + "\n",
+}
 
 
 def fetch(url):
@@ -146,6 +169,13 @@ def build_sky():
     options.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def write_default_configs():
+    for relative, text in DEFAULT_CONFIGS.items():
+        path = ROOT / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding="utf-8")
+
+
 def pack_files():
     files = [p for d in GENERATED for p in (ROOT / d).rglob("*") if p.is_file()]
     return sorted(files + [ROOT / SKY_PACK])
@@ -199,6 +229,7 @@ def main():
         raise SystemExit(f"base pack targets {dependencies}; update MINECRAFT/FABRIC_LOADER")
     add_extras()
     build_sky()
+    write_default_configs()
     print(f"pack written: {write_index_and_pack()} files in index.toml")
     if args.instance_zip:
         target, tag = instance_zip()

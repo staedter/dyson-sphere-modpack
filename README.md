@@ -7,6 +7,8 @@ Der Client für unsere Dyson-Sphären-Welt (Minecraft Java **26.1.2**, Fabric):
 - **Nuit** – eigener Sternenhimmel
 - **Milchstraßen-Himmel** – die Milchstraße aus NASA-Sternkarten als
   Hintergrund, nur in der Dyson-Welt (Leere-Biom der Oberwelt)
+- **Zoomify** – das Fernrohr zoomt mit dem Mausrad viel weiter heran
+  (zusätzlich zoomt die Taste C auch ohne Fernrohr)
 
 Die Mods werden nicht hier gespeichert: Das Pack verweist auf Modrinth, jede
 Datei wird beim Spieler heruntergeladen und per SHA-512 geprüft.
@@ -30,6 +32,15 @@ Neue Installationen haben ihn automatisch an. Wer das Pack schon vor
 Version 0.2.0 gestartet hat, schaltet ihn einmal selbst ein: im Spiel
 *Optionen → Ressourcenpakete* → „dyson-sky.zip“ nach rechts schieben → *Fertig*
 (oder im Mod-Menü bei *Config Manager* auf *Update* drücken).
+
+## Einstellungen für die Dyson-Welt (ab 0.2.2)
+
+Neue Installationen haben sie automatisch: Distant Horizons ohne
+Höhlen-Ausblendung (sonst bleibt die Fernsicht in der Welt ohne Himmelslicht
+fast leer), ohne Wolken, ohne eigenen Nebel (die Sonne bleibt auch von weit weg
+hell) und ohne „blaues Wasser“ in nicht fertig erzeugten Chunks; dazu das
+Fernrohr mit Mausrad-Zoom. Wer das Pack schon vorher installiert hat: im
+Mod-Menü bei *Config Manager* auf *Update* drücken und das Spiel neu starten.
 
 ## Schwächere Grafikkarten (z. B. GTX 1050 Ti)
 

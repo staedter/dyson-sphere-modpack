@@ -1,0 +1,11 @@
+_version = 5
+
+[client.advanced.graphics.culling]
+	enableCaveCulling = false
+	ignoredRenderBlockCsv = "minecraft:barrier,minecraft:structure_void,minecraft:light,minecraft:tripwire,minecraft:brown_mushroom,minecraft:water"
+
+[client.advanced.graphics.genericRendering]
+	enableCloudRendering = false
+
+[client.advanced.graphics.fog]
+	enableDhFog = false

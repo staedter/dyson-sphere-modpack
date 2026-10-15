@@ -1,6 +1,10 @@
 hash-format = "sha256"
 
 [[files]]
+file = "config/modpack_defaults/config/DistantHorizons.toml"
+hash = "04496cedf1e5035d1ca9f08a82601b1f267a8a05934ed7c41a79f45d6ce5c4ac"
+
+[[files]]
 file = "config/modpack_defaults/config/crash_assistant/config.toml"
 hash = "246a48029d30594831e3485f5a23b19df626c9f8f97c3d707a10f85c5a78cbc7"
 
@@ -23,6 +27,10 @@ hash = "ee8d1a6f11ea009f37abba6325d97766910e1786b0de848aa307771d8a87ed72"
 [[files]]
 file = "config/modpack_defaults/config/vmp.properties"
 hash = "244a5a217b4604782a66736cae23717c7871acd0e2bbd51dc2b28e4b642885f2"
+
+[[files]]
+file = "config/modpack_defaults/config/zoomify.json"
+hash = "211e581ab4b4c0cfa9120d777a1dceaa0a74ff56369ee7ad8b91cc4f2cd6870f"
 
 [[files]]
 file = "config/modpack_defaults/options.txt"
@@ -174,6 +182,11 @@ hash = "c7a940cfd78cde72195a902acbe71745d3698e847575464f9e9fe39446ff8aa6"
 metafile = true
 
 [[files]]
+file = "mods/yacl.pw.toml"
+hash = "25a5e6b9be15003072bc8490659ded112d3d9c769934805be2521915d38ac407"
+metafile = true
+
+[[files]]
 file = "mods/zconfig.pw.toml"
 hash = "8078347c8e2fd79bbb3e414fd36bc319e2d043f8d3b955c14f430fee0b5d6843"
 metafile = true
@@ -181,6 +194,11 @@ metafile = true
 [[files]]
 file = "mods/zfastnoise.pw.toml"
 hash = "0569928f0e8f6423ee586ca85088e64aa5a2537afa6fab9d503305f87444fef4"
+metafile = true
+
+[[files]]
+file = "mods/zoomify.pw.toml"
+hash = "52ea03cdd94b04ca3bb3260bd29c265ca3ff4914aba336e861bcd797d9b6086e"
 metafile = true
 
 [[files]]
